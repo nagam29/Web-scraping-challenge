@@ -24,14 +24,13 @@ def scrape():
     # Get the first paragraph
     # reference https://www.studytonight.com/python/web-scraping/find-tags-with-beautifulsoup
     p_tags=soup.find_all('p')
-    ### print(p_tags)
+    
     # Get "<p><i>Like much of the rest of the world, the Mars rover team is pushing forward with its mission-critical work while putting the health and safety of their colleagues and community first.</i></p>"
     # This sentence is the second item in the list
     for tag in p_tags:
         try:
             news_p=tag.find('i').text
-            ### if (news_p):
-                ### print(news_p)
+
         except AttributeError:
             pass
     scraped["news_parag"]=news_p
@@ -43,9 +42,9 @@ def scrape():
     browser.visit(url)
     html = browser.html
     soup = bs(html, 'html.parser')
-    ### print(soup.prettify())
+    
     results=soup.find_all('article')
-    ### results
+    
     featured_image_url='https://www.jpl.nasa.gov/spaceimages/images/largesize/PIA23852_hires.jpg'
     scraped["feature_img"] = featured_image_url
 
@@ -56,20 +55,19 @@ def scrape():
     time.sleep(15)
     html = browser.html
     soup = bs(html, 'html.parser')
-    ### print(soup.prettify())
+    
     # text of mars weather is between span tags. So, just find all the text related to span tags
     # text of mars weather is between span tags. So, just find all the text related to span tags
-    #soup2 = bs(html)
+    
     weather_report=[]
     for span_tag in soup.find_all('span'):
         if 'sol' in span_tag.text:
             weather_report.append(span_tag.text) 
-        ### print("Found span text:", span_tag.text)
-    ### print(weather_report[0])
+        
 
     # there are a few mars weathers are posted. Let's save one
     mars_weather=weather_report[0]
-    ### print(mars_weather)
+    
     scraped["weather"] = mars_weather
 
     # Mars Facts
@@ -101,22 +99,20 @@ def scrape():
     time.sleep(15)
     html = browser.html
     soup = bs(html, 'html.parser')
-    ### print(soup.prettify())
+    
 
     for result in soup:
         try:
             title=result.find('h2', class_="title").text
             link=result.find_all('a',href="http://astropedia.astrogeology.usgs.gov/download/Mars/Viking/cerberus_enhanced.tif/full.jpg")
         
-            ###if (title and link):
-                ### print(title)
-                ### print(link)
+            
         except AttributeError as e:
             print(e)
 
         title_cer=title
         link_cer=link
-        ### print(title_cer,link_cer)
+        
 
     # Schiaparelli Hemisphere
 
@@ -125,15 +121,13 @@ def scrape():
     time.sleep(10)
     html = browser.html
     soup = bs(html, 'html.parser')
-    ### print(soup.prettify())
+    
     for result in soup:
         try:
             title=result.find('h2', class_="title").text
             link=result.find_all('a',href="http://astropedia.astrogeology.usgs.gov/download/Mars/Viking/schiaparelli_enhanced.tif/full.jpg")
-            
-            ### if (title and link):
-                ### print(title)
-                ### print(link)
+                          
+                
         except AttributeError as e:
             print(e)
 
@@ -148,22 +142,19 @@ def scrape():
     time.sleep(10)
     html = browser.html
     soup = bs(html, 'html.parser')
-    ### print(soup.prettify())
 
     for result in soup:
         try:
             title=result.find('h2', class_="title").text
             link=result.find_all('a',href="http://astropedia.astrogeology.usgs.gov/download/Mars/Viking/syrtis_major_enhanced.tif/full.jpg")
             
-           ###  if (title and link):
-                ### print(title)
-                ### print(link)
+           
         except AttributeError as e:
             print(e)
 
         title_syr=title
         link_syr=link
-        ### print(title_syr,link_syr)
+        
 
     # Valles Marineris Hemisphere 
     url_val = 'https://astrogeology.usgs.gov/search/map/Mars/Viking/valles_marineris_enhanced'
@@ -171,22 +162,20 @@ def scrape():
     time.sleep(10)
     html = browser.html
     soup = bs(html, 'html.parser')
-    ### print(soup.prettify())
+    
 
     for result in soup:
         try:
             title=result.find('h2', class_="title").text
             link=result.find_all('a',href="http://astropedia.astrogeology.usgs.gov/download/Mars/Viking/valles_marineris_enhanced.tif/full.jpg")
             
-            ### if (title and link):
-                ### print(title)
-                ### print(link)
+            
         except AttributeError as e:
             print(e)
 
         title_val=title
         link_val=link
-        ### print(title_val,link_val)
+        
 
     hemisphere_image_urls = [
         {"title": "Cerberus Hemisphere Enhanced", "img_url": "http://astropedia.astrogeology.usgs.gov/download/Mars/Viking/cerberus_enhanced.tif/full.jpg"},
@@ -194,7 +183,7 @@ def scrape():
         {"title": "Syrtis Major Hemisphere Enhanced", "img_url": "http://astropedia.astrogeology.usgs.gov/download/Mars/Viking/syrtis_major_enhanced.tif/full.jpg"},
         {"title": "Valles Marineris Hemisphere Enhanced", "img_url": "http://astropedia.astrogeology.usgs.gov/download/Mars/Viking/valles_marineris_enhanced.tif/full.jpg"},
     ]
-    ### print(hemisphere_image_urls)
+    
 
     return (scraped,hemisphere_image_urls)
     
